@@ -1,0 +1,129 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+
+name                neuron
+version             VERSION
+categories          science
+platforms           darwin
+license             GPL-2
+maintainers         gmx.de:christsc
+description         Empirically-based simulations of neurons and networks of neurons
+long_description    NEURON is a simulation environment for developing and exercising models of neurons and networks of neurons.
+homepage            http://www.neuron.yale.edu
+master_sites        http://www.stimfit.org/neuron/
+distname            nrn-${version}
+distfiles           ${distname}.REL${extract.suffix}
+checksums           ${distname}.REL${extract.suffix} \
+                        rmd160  NRNRMD160 \
+                        sha256  NRNSHA256
+
+# xorg-libX11 is required even if we build without gui.
+depends_lib         port:xorg-libX11 \
+                    port:gettext \
+                    port:libiconv \
+                    port:readline \
+                    port:ncurses
+
+configure.compiler gcc
+
+configure.cflags-append \
+                    -mmacosx-version-min=10.5 \
+                    -Wno-return-type
+configure.cxxflags-append \
+                    -mmacosx-version-min=10.5 \
+                    -Wno-return-type
+configure.ldflags-append \
+                    -mmacosx-version-min=10.5
+configure.pre_args  --prefix=${applications_dir}/NEURON/nrn
+configure.args      --without-iv
+
+variant gui description {Build with graphical user interface.} {
+    depends_lib-append \
+        port:neuron-iv
+
+    configure.args-delete \
+        --without-iv
+
+    configure.args-append \
+        --with-iv=${applications_dir}/NEURON/iv
+}
+
+variant python27 conflicts python33 python34 description {Build Python 2.7 module.} {
+    depends_lib-append \
+        port:python27 \
+        port:py27-numpy
+
+    configure.args-append \
+        --with-nrnpython=${prefix}/bin/python2.7 \
+        --enable-pysetup="--root=${destroot}"
+}
+
+variant python33 conflicts python27 python34 description {Build Python 3.3 module.} {
+    depends_lib-append \
+        port:python33 \
+        port:py33-numpy
+
+    configure.args-append \
+        --with-nrnpython=${prefix}/bin/python3.3 \
+        --enable-pysetup="--root=${destroot}"
+}
+
+variant python34 conflicts python27 python33 description {Build Python 3.4 module.} {
+    depends_lib-append \
+        port:python34 \
+        port:py34-numpy
+
+    configure.args-append \
+        --with-nrnpython=${prefix}/bin/python3.4 \
+        --enable-pysetup="--root=${destroot}"
+}
+
+variant openmpi conflicts mpich description {Use openmpi for parallelization.} {
+    depends_lib-append \
+        port:openmpi-default
+
+    configure.env-append \
+        MPICC=${prefix}/bin/mpicc-openmpi-mp \
+        MPICXX=${prefix}/bin/mpicxx-openmpi-mp
+
+    configure.args-append \
+        --with-paranrn
+}
+
+variant mpich conflicts openmpi description {Use mpich for parallelization.} {
+    depends_lib-append \
+        port:mpich-default
+
+    configure.env-append \
+        MPICC=${prefix}/bin/mpicc-mpich-mp \
+        MPICXX=${prefix}/bin/mpicxx-mpich-mp
+
+    configure.args-append \
+        --with-paranrn
+}
+
+if {![variant_isset python33] && ![variant_isset python34]} { 
+    default_variants +python27
+}
+
+if {![variant_isset mpich]} { 
+    default_variants-append +openmpi
+}
+
+default_variants-append +gui
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 ${worksrcpath}/README ${docdir}
+}
+
+# Force installation of libtool la files
+pre-install {
+    set libdir ${destroot}${applications_dir}/NEURON/nrn/${build_arch}/lib
+    xinstall -d ${libdir}
+    xinstall -m 755 ${worksrcpath}/src/nrniv/libnrniv.la ${libdir}
+    xinstall -m 755 ${worksrcpath}/src/nrnoc/libnrnoc.la ${libdir}
+}

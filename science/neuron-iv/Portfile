@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id$
+
+PortSystem          1.0
+
+name                neuron-iv
+version             19
+categories          science
+platforms           darwin
+license             {SGI Stanford}
+maintainers         gmx.de:christsc
+description         Graphics toolkit for NEURON based on InterViews
+long_description    This version of interviews has been hacked from the original \
+                    distribution to be portable to a few more platforms, and to use an \
+                    autoconfigure script.
+homepage            http://www.neuron.yale.edu
+master_sites        http://www.stimfit.org/neuron/
+distname            iv-${version}
+
+checksums           rmd160  8106398a77a011f81ca9f05533926537a0b80bfb \
+                    sha256  3cb76ad00ebf4282d4c586540f54624fef7ecf8cd3fa2e6b3075d8fdacdc42e0
+
+depends_lib         port:xorg-libX11 \
+                    port:xorg-libXext
+
+configure.compiler gcc
+
+configure.cflags-append \
+                    -mmacosx-version-min=10.5
+configure.cxxflags-append \
+                    -mmacosx-version-min=10.5
+configure.ldflags-append \
+                    -mmacosx-version-min=10.5
+configure.pre_args  --prefix=${applications_dir}/NEURON/iv
+
+post-destroot {
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    xinstall -m 644 ${worksrcpath}/Copyright ${docdir}
+}
+
+# Force installation of libtool la file
+pre-install {
+    set libdir ${destroot}${applications_dir}/NEURON/iv/${build_arch}/lib
+    xinstall -d ${libdir}
+    xinstall -m 755 ${worksrcpath}/src/lib/libIVhines.la ${libdir}
+}
