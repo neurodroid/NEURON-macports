@@ -94,8 +94,8 @@ else
 fi
 
 test_py_neuron "2.7"
-test_py_neuron "3.3"
 test_py_neuron "3.4"
+test_py_neuron "3.5"
 
 # Remove previous installs
 clean_port "neuron"
