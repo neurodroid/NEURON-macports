@@ -1,7 +1,7 @@
 #! /bin/bash
 
 NRNVERSION="7.4"
-NRNREL="rel-1341"
+NRNREL="rel-1370"
 IVVERSION="19"
 MASTERSITE="http://www.stimfit.org/neuron"
 # PATCHSITE="http://www.stimfit.org/neuron"

@@ -14,10 +14,10 @@ long_description    NEURON is a simulation environment for developing and exerci
 homepage            http://www.neuron.yale.edu
 master_sites        http://www.stimfit.org/neuron/
 distname            nrn-${version}
-distfiles           ${distname}.rel-1341${extract.suffix}
-checksums           ${distname}.rel-1341${extract.suffix} \
-                        rmd160  24d498876cc743a4fafa7086e7779f06de27068e \
-                        sha256  9d56b79290f8914457ac795d63342deeb999f0860843b0ae435e5f4a2eac1e5f
+distfiles           ${distname}.rel-1370${extract.suffix}
+checksums           ${distname}.rel-1370${extract.suffix} \
+                        rmd160  0ad755d34bc8416cf5a326118bf35506e7db8f4b \
+                        sha256  1403ba16b2b329d2376f4bf007d96e6bf2992fa850f137f1068ad5b22b432de6
 
 # xorg-libX11 is required even if we build without gui.
 depends_lib         port:xorg-libX11 \
