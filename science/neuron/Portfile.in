@@ -50,7 +50,7 @@ variant gui description {Build with graphical user interface.} {
         --with-iv=${applications_dir}/NEURON/iv
 }
 
-variant python27 conflicts python34 python35 description {Build Python 2.7 module.} {
+variant python27 conflicts python36 python37 description {Build Python 2.7 module.} {
     depends_lib-append \
         port:python27 \
         port:py27-numpy
@@ -60,23 +60,23 @@ variant python27 conflicts python34 python35 description {Build Python 2.7 modul
         --enable-pysetup="--root=${destroot}"
 }
 
-variant python34 conflicts python27 python35 description {Build Python 3.4 module.} {
+variant python36 conflicts python27 python37 description {Build Python 3.6 module.} {
     depends_lib-append \
-        port:python34 \
-        port:py34-numpy
+        port:python36 \
+        port:py36-numpy
 
     configure.args-append \
-        --with-nrnpython=${prefix}/bin/python3.4 \
+        --with-nrnpython=${prefix}/bin/python3.6 \
         --enable-pysetup="--root=${destroot}"
 }
 
-variant python35 conflicts python27 python34 description {Build Python 3.5 module.} {
+variant python37 conflicts python27 python36 description {Build Python 3.7 module.} {
     depends_lib-append \
-        port:python35 \
-        port:py35-numpy
+        port:python37 \
+        port:py37-numpy
 
     configure.args-append \
-        --with-nrnpython=${prefix}/bin/python3.5 \
+        --with-nrnpython=${prefix}/bin/python3.7 \
         --enable-pysetup="--root=${destroot}"
 }
 
@@ -104,7 +104,7 @@ variant mpich conflicts openmpi description {Use mpich for parallelization.} {
         --with-paranrn
 }
 
-if {![variant_isset python35] && ![variant_isset python34]} {
+if {![variant_isset python37] && ![variant_isset python36]} {
     default_variants +python27
 }
 
