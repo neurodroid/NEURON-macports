@@ -26,16 +26,10 @@ depends_lib         port:xorg-libX11 \
                     port:readline \
                     port:ncurses
 
-configure.compiler gcc
-
 configure.cflags-append \
-                    -mmacosx-version-min=10.5 \
                     -Wno-return-type
 configure.cxxflags-append \
-                    -mmacosx-version-min=10.5 \
                     -Wno-return-type
-configure.ldflags-append \
-                    -mmacosx-version-min=10.5
 configure.pre_args  --prefix=${applications_dir}/NEURON/nrn
 configure.args      --without-iv
 
