@@ -23,14 +23,6 @@ checksums           rmd160  RMD160 \
 depends_lib         port:xorg-libX11 \
                     port:xorg-libXext
 
-configure.compiler gcc
-
-configure.cflags-append \
-                    -mmacosx-version-min=10.5
-configure.cxxflags-append \
-                    -mmacosx-version-min=10.5
-configure.ldflags-append \
-                    -mmacosx-version-min=10.5
 configure.pre_args  --prefix=${applications_dir}/NEURON/iv
 
 post-destroot {
