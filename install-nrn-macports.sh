@@ -55,9 +55,9 @@ fi
 
 # Get Portfiles and scripts
 echo "Downloading Portfiles and scripts"
-curl --progress-bar -O http://www.stimfit.org/neuron/nrn-macports.tar.gz
-tar -xzf nrn-macports.tar.gz
-cd nrn-macports
+curl --progress-bar -O http://www.stimfit.org/neuron/NEURON-macports.tar.gz
+tar -xzf NEURON-macports.tar.gz
+cd NEURON-macports
 MPPWD=`pwd`
 
 # Install gsed
