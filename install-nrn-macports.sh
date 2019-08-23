@@ -112,7 +112,7 @@ test_port_index "neuron-iv"
 echo ""
 echo "Installing openmpi"
 sudo port install openmpi-default
-sudo port select mpi openmpi-mp-fortran
+# sudo port select mpi openmpi-mp-fortran
 
 echo ""
 echo "Installing neuron"
